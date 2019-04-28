@@ -1,0 +1,99 @@
+class Temperature:
+
+    @staticmethod
+    def Celsius():
+        Fahernheit = float(input("Please enter the Fahernheit value: "))
+        Celsius = (5/9) * (Fahernheit - 32)
+        return Celsius
+
+    @staticmethod
+    def Farenheit():
+        Celsius = float(input("Please enter the Celsius value: "))
+        Fahernheit = (9/5) * Celsius + 32
+        return Fahernheit
+
+
+
+
+class TemperatureSensor:
+
+    import datetime
+
+    ## Attributes
+    CurrentTemp = 0
+    TempType = ""
+    Date = []
+    Time = 0.0
+    Location = 0
+
+    SensorCount = 0
+
+    def __init__(self, current_t, temp_type = True, date=[27, 4, 2019], time=0.0, location=1):
+        self.CurrentTemp = current_t
+
+        self.Date = date
+        self.Time = time
+        self.Location = location
+
+        TemperatureSensor.SensorCount += 1
+
+        if date[2] < 2019:
+            self.Date = [27, 4, 2019]
+
+        if date[1] <= 4 and date[0] <27 and date[2]==2019:
+            self.Date = [27, 4, 2019]
+
+
+        if temp_type == True:
+            self.TempType = "Celsius"
+        else:
+            self.TempType = "Fahernheit"
+
+        if location < 1 and location > 3:
+            print("Error: Location parameter must be either: 1 or 2 or 3.")
+
+
+    def print(self):
+        print("-----------------------------")
+        print("--------TEMP DETAILS---------")
+        print("-----------------------------")
+        print("Current Temp: ", self.CurrentTemp)
+        print("Format:       ", self.TempType)
+        print("Date:         ", self.Date)
+        print("Time:         ", self.Time)
+        print("Location:     ", self.Location)
+        print("No. of sensors: ", TemperatureSensor.SensorCount)
+
+    def current_temp(self):
+        return self.CurrentTemp
+
+    def celsius(self):
+        if self.TempType == "Fahernheit":
+            Celsius = Temperature.Celsius()
+
+        return Celsius
+
+Temperatures = []
+Temperatures.append(TemperatureSensor(20, False, [28,4,2019],11.35,1))
+Temperatures.append(TemperatureSensor(30, True, [28,4,2019],11.36,2))
+Temperatures.append(TemperatureSensor(40, False, [28,4,2019],11.37,3))
+Temperatures.append(TemperatureSensor(20, True, [28,4,2019],11.38,1))
+
+TotalTemp = 0
+ItemNumber = 0
+
+for item in Temperatures:
+    item: TemperatureSensor
+    if item.TempType == "Fahernheit":
+        CelsiusVal = (5/9) * (item.CurrentTemp - 32)
+        TotalTemp += CelsiusVal
+    else:
+        TotalTemp += item.CurrentTemp
+    ItemNumber += 1
+    item.print()
+
+AverageTemp = TotalTemp / ItemNumber
+
+print("Average Temperatures:      ", AverageTemp,"degrees Celsius")
+
+
